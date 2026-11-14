@@ -25,10 +25,17 @@ and in the format the code reads; **stub** = shipped, but minimal; **todo** = no
 Extra files places of the period refer to (tool meshes and textures, backpack icons, seasonal
 icons, the spawn decal, the face) come from BrickBuild as-is.
 
-## Not yet checked in the client
+## What has been checked in the client
 
-Every format above was read off the source, and `tools/preview.py` tints the surfaces with the
-client's own shading rule, but none of it has been seen in the running client yet. The port links
-against `rgmain.dll` (OGRE, renamed) through an import library made from
-`Client/Rendering/OgreSDK/lib/rgmain.def`; the DLL itself is not in the repository, so the client
-only starts next to files from an original install.
+Run with the port's own `Roblox.exe` (NMake build), `AppSettings.xml` pointing at this folder, and
+the renderer DLLs from an original December 2007 install (`rgmain.dll`, `rgdx.dll`,
+`SciLexer.dll`; none of the original `content` folder):
+
+- the client takes the folder (`setAssetFolder ...\content` in its log) and opens a place;
+- `fonts/comics.fnt` is accepted: OGRE logs `ft0` as a 512x256 A8 texture.
+
+Not seen on screen yet. The test machine is a VM whose only Direct3D device is the Microsoft Basic
+Render Driver: the device is lost right after the font loads and the client exits. The install
+also lacks `rgpar.dll` (OGRE's ParticleFX plugin, renamed), which `VisualEngine.cpp` treats as
+fatal; the run above used a local build with that check relaxed. A machine with a real GPU and
+a complete install is needed to look at the surfaces, sky and cursors.
