@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<safechat>
+	<utterance>Hello
+		<utterance>Hi!</utterance>
+		<utterance>Hello!</utterance>
+		<utterance>Hey there!</utterance>
+		<utterance>Good morning!</utterance>
+		<utterance>Good evening!</utterance>
+		<utterance>Welcome!</utterance>
+	</utterance>
+	<utterance>Goodbye
+		<utterance>Bye!</utterance>
+		<utterance>See you later!</utterance>
+		<utterance>I have to go now.</utterance>
+		<utterance>Thanks for playing!</utterance>
+	</utterance>
+	<utterance>Building
+		<utterance>Want to build together?</utterance>
+		<utterance>Nice build!</utterance>
+		<utterance>Can I help?</utterance>
+		<utterance>What are you making?</utterance>
+		<utterance>I am building a house.</utterance>
+		<utterance>I am building a car.</utterance>
+		<utterance>Let's make a tower!</utterance>
+	</utterance>
+	<utterance>Games
+		<utterance>Let's play a game!</utterance>
+		<utterance>Tag, you're it!</utterance>
+		<utterance>Race you!</utterance>
+		<utterance>Hide and seek?</utterance>
+		<utterance>Follow me!</utterance>
+		<utterance>Good game!</utterance>
+	</utterance>
+	<utterance>Questions
+		<utterance>How do I do that?</utterance>
+		<utterance>Where are you?</utterance>
+		<utterance>What should we do?</utterance>
+		<utterance>Can you help me?</utterance>
+		<utterance>Who wants to team up?</utterance>
+	</utterance>
+	<utterance>Answers
+		<utterance>Yes</utterance>
+		<utterance>No</utterance>
+		<utterance>Maybe</utterance>
+		<utterance>OK</utterance>
+		<utterance>I don't know</utterance>
+		<utterance>Sure!</utterance>
+		<utterance>One moment, please.</utterance>
+	</utterance>
+	<utterance>Feelings
+		<utterance>Cool!</utterance>
+		<utterance>Awesome!</utterance>
+		<utterance>Oops!</utterance>
+		<utterance>Sorry!</utterance>
+		<utterance>Thank you!</utterance>
+		<utterance>That was fun!</utterance>
+		<utterance>Wow!</utterance>
+	</utterance>
+</safechat>
