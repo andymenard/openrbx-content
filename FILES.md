@@ -6,6 +6,7 @@ and in the format the code reads; **stub** = shipped, but minimal; **todo** = no
 | File | Asked for in | Status | Notes |
 |---|---|---|---|
 | `sky/null_plainsky512_{bk,dn,ft,lf,rt,up}.jpg` | `App/v8datamodel/Sky.cpp:91`, `Rendering/RenderLibNew/View.cpp:135` | ok | 512² cube faces, procedural sky and clouds |
+| `sky/{moon,sun,sun-rays}.jpg` | `Rendering/AppDraw/RbxSky.cpp` | ok | 256² procedural textures for additive billboards |
 | `textures/SurfacesStrip.png` | `RbxView/MaterialFactory.cpp:138` | ok | greyscale, 64×384: studs / inlet / weld / glue bands at 0, ⅓, ⅔, ⅚ (`BrickMesh.cpp:96`). Grey 128 = brick colour (`TextureProxy::shadePixel`). Smooth faces sample (centre, 8/9), kept at 128 |
 | `textures/surfaces.png` | `RbxView/MaterialFactory.cpp:132` | ok? | same layout at 128×768. Used for non-block parts; layout assumed to match the strip, unverified |
 | `textures/JohnTex.png` | `RbxView/MaterialFactory.cpp:135` | ok | near-white, so a file mesh's vertex colour shows |
@@ -27,15 +28,11 @@ icons, the spawn decal, the face) come from BrickBuild as-is.
 
 ## What has been checked in the client
 
-Run with the port's own `Roblox.exe` (NMake build), `AppSettings.xml` pointing at this folder, and
-the renderer DLLs from an original December 2007 install (`rgmain.dll`, `rgdx.dll`,
-`SciLexer.dll`; none of the original `content` folder):
+The checked-in pack was tested with the OpenRBX ARM64 Linux client and the
+OGRE OpenGL renderer on an Apple M1 Pro. A local place rendered with studded
+surfaces, the player model, HUD text, and the cursor. The renderer loaded the
+512×256 font atlas, all six skybox faces, and the three celestial textures.
 
-- the client takes the folder (`setAssetFolder ...\content` in its log) and opens a place;
-- `fonts/comics.fnt` is accepted: OGRE logs `ft0` as a 512x256 A8 texture.
-
-Not seen on screen yet. The test machine is a VM whose only Direct3D device is the Microsoft Basic
-Render Driver: the device is lost right after the font loads and the client exits. The install
-also lacks `rgpar.dll` (OGRE's ParticleFX plugin, renamed), which `VisualEngine.cpp` treats as
-fatal; the run above used a local build with that check relaxed. A machine with a real GPU and
-a complete install is needed to look at the surfaces, sky and cursors.
+An earlier Windows NMake test opened a place and loaded the font atlas before
+the VM's Direct3D device was lost. The current pack's full 3D rendering was
+verified on Linux.

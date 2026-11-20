@@ -293,6 +293,36 @@ def models():
     for n in ('humanoidSound', 'humanoidHealth', 'humanoidAnimate'):
         Rbxm.file('fonts/%s.rbxm' % n, [])
 
+def celestial_textures():
+    # OGRE adds these billboards to the sky, so black contributes no light.
+    coords = (np.arange(256) + 0.5) / 128 - 1
+    x, y = np.meshgrid(coords, coords)
+    radius = np.hypot(x, y)
+
+    def save(name, rgb):
+        pixels = np.clip(rgb, 0, 255).astype(np.uint8)
+        Image.fromarray(pixels).save(path(f'sky/{name}.jpg'), quality=95)
+
+    moon_radius = radius / 0.77
+    sphere = np.sqrt(np.maximum(0, 1 - moon_radius ** 2))
+    shading = np.clip(0.4 + 0.65 * sphere - 0.28 * x, 0, 1)
+    for cx, cy, size in [(-0.25, -0.17, 0.12), (0.20, 0.13, 0.17),
+                         (-0.10, 0.39, 0.08), (0.30, -0.32, 0.07)]:
+        shading *= 1 - 0.27 * np.exp(-((x - cx) ** 2 + (y - cy) ** 2) / size ** 2)
+    moon = shading * np.clip((1 - moon_radius) * 90, 0, 1)
+    save('moon', moon[..., None] * np.array([216, 225, 240]))
+
+    fade = np.clip((0.97 - radius) * 8, 0, 1)
+    disc = np.clip((0.22 - radius) * 90, 0, 1)
+    sun = np.maximum(disc, 0.32 * np.exp(-8 * radius)) * fade
+    save('sun', sun[..., None] * np.array([255, 243, 204]))
+
+    angle = np.arctan2(y, x)
+    beams = (0.5 + 0.5 * np.cos(12 * angle)) ** 5
+    rays = beams * np.exp(-3 * radius) * np.minimum(radius * 8, 1) * fade
+    save('sun-rays', rays[..., None] * np.array([255, 221, 153]))
+
+
 # ============================================================== from BrickBuild as is
 def from_brickbuild():
     bb.OUT = OUT; bb.ROOT = os.path.join(HERE, 'tools', 'no-brickbuild-ui')  # small icons fall back to drawn ones
@@ -306,6 +336,7 @@ def from_brickbuild():
 if __name__ == '__main__':
     shutil.rmtree(OUT, ignore_errors=True); os.makedirs(OUT)
     from_brickbuild()
+    celestial_textures()
     surfaces(); johntex(); explosion(); cursors(); sounds(); fonts(); wordlist(); safechat(); models()
     n = sum(len(fs) for _, _, fs in os.walk(OUT))
     print('wrote', n, 'files to', OUT)

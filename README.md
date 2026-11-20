@@ -5,19 +5,30 @@ An original replacement for the client's `content` folder, for the
 comes from Roblox: every file is drawn, synthesized or written by `make_pack.py`, or comes from
 [BrickBuild](BRICKBUILD-LICENSE.txt) (MIT), except the Comic Neue typeface (SIL OFL 1.1).
 
-```sh
-python3 -m venv .venv && .venv/bin/pip install numpy pillow
-.venv/bin/python make_pack.py        # writes content/
-.venv/bin/python tools/preview.py    # build/preview.png: tinted surfaces, cursors, font
-```
+## Install the content pack
 
-To use it, put `content/` next to `Roblox.exe` and point `AppSettings.xml` at it:
+Download this repository and copy its ready-to-use `content/` folder beside
+your OpenRBX executable (`Roblox` on Linux or `Roblox.exe` on Windows). If that
+directory already has a `content/` folder, back it up and copy this pack in
+its place. No Python setup is required.
+
+In `AppSettings.xml` beside the executable, set `ContentFolder` inside the
+existing `Settings` element. Create the file with the following contents if it
+doesn't exist.
 
 ```xml
 <Settings>
   <ContentFolder>content</ContentFolder>
 </Settings>
 ```
+
+Launch OpenRBX and open a local `.rbxl` place.
+
+## Regenerate the pack
+
+From the repository root, install NumPy and Pillow in your Python environment
+with `python -m pip install numpy pillow`. Run `python make_pack.py` to rebuild
+`content/`, or `python tools/preview.py` to generate `build/preview.png`.
 
 [FILES.md](FILES.md) lists every file the client asks for, where in the code it asks, and what
 this pack ships for it.
