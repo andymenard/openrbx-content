@@ -286,7 +286,7 @@ def models():
     face = r.item('Decal', [('string', 'Name', 'face'), ('token', 'Face', 5),
                             ('Content', 'Texture', 'rbxasset://textures/character-face.png')])
     head_mesh = r.item('SpecialMesh', [
-        ('string', 'Name', 'Mesh'), ('token', 'MeshType', 0), ('Vector3', 'Scale', (1.50, 1.12, 1.50)),
+        ('string', 'Name', 'Mesh'), ('token', 'MeshType', 0), ('Vector3', 'Scale', (1.22, 1.22, 1.22)),
     ])
     body = [
         part(r, 'Head', (2, 1, 1), (0, 4.5, 0), SKIN, children=[head_mesh, face]),
