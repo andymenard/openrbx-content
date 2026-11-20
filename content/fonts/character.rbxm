@@ -18,7 +18,7 @@
 <Properties>
 <string name="Name">Mesh</string>
 <token name="MeshType">0</token>
-<Vector3 name="Scale"><X>1.4</X><Y>1.2</Y><Z>1.4</Z></Vector3>
+<Vector3 name="Scale"><X>1.5</X><Y>1.12</Y><Z>1.5</Z></Vector3>
 </Properties>
 </Item>
 <Item class="Decal" referent="RBX0">

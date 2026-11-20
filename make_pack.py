@@ -286,7 +286,7 @@ def models():
     face = r.item('Decal', [('string', 'Name', 'face'), ('token', 'Face', 5),
                             ('Content', 'Texture', 'rbxasset://textures/character-face.png')])
     head_mesh = r.item('SpecialMesh', [
-        ('string', 'Name', 'Mesh'), ('token', 'MeshType', 0), ('Vector3', 'Scale', (1.40, 1.20, 1.40)),
+        ('string', 'Name', 'Mesh'), ('token', 'MeshType', 0), ('Vector3', 'Scale', (1.50, 1.12, 1.50)),
     ])
     body = [
         part(r, 'Head', (2, 1, 1), (0, 4.5, 0), SKIN, children=[head_mesh, face]),
@@ -309,13 +309,18 @@ def models():
         Rbxm.file('fonts/%s.rbxm' % n, [])
 
 def character_face():
-    with Image.open(path('textures/face.png')) as source:
-        face = source.convert('RGBA')
-    width, height = face.size
-    compressed = face.resize((width, round(height * 0.8)), Image.Resampling.LANCZOS)
-    decal = Image.new('RGBA', face.size)
-    decal.paste(compressed, (0, (height - compressed.height) // 2))
-    decal.save(path('textures/character-face.png'))
+    # Keep the features away from the cap bevels, where the head mesh warps the UVs.
+    oversample = 4
+    face = Image.new('RGBA', (256 * oversample, 256 * oversample))
+    draw = ImageDraw.Draw(face)
+    ink = (37, 25, 29, 255)
+
+    for center in (96, 160):
+        draw.ellipse(tuple(value * oversample for value in (center - 7, 89, center + 7, 108)), fill=ink)
+
+    draw.arc(tuple(value * oversample for value in (90, 104, 166, 151)),
+             start=15, end=165, fill=ink, width=6 * oversample)
+    face.resize((256, 256), Image.Resampling.LANCZOS).save(path('textures/character-face.png'))
 
 
 def celestial_textures():
