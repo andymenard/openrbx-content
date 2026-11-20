@@ -18,13 +18,14 @@
 <Properties>
 <string name="Name">Mesh</string>
 <token name="MeshType">0</token>
+<Vector3 name="Scale"><X>1.4</X><Y>1.2</Y><Z>1.4</Z></Vector3>
 </Properties>
 </Item>
 <Item class="Decal" referent="RBX0">
 <Properties>
 <string name="Name">face</string>
 <token name="Face">5</token>
-<Content name="Texture"><url>rbxasset://textures/face.png</url></Content>
+<Content name="Texture"><url>rbxasset://textures/character-face.png</url></Content>
 </Properties>
 </Item>
 </Item>

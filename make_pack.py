@@ -284,8 +284,10 @@ def models():
     # arms, brown shirt, dark stone grey trousers.
     r = Rbxm(); SKIN, SHIRT, PANTS = 9, 217, 199
     face = r.item('Decal', [('string', 'Name', 'face'), ('token', 'Face', 5),
-                            ('Content', 'Texture', 'rbxasset://textures/face.png')])
-    head_mesh = r.item('SpecialMesh', [('string', 'Name', 'Mesh'), ('token', 'MeshType', 0)])
+                            ('Content', 'Texture', 'rbxasset://textures/character-face.png')])
+    head_mesh = r.item('SpecialMesh', [
+        ('string', 'Name', 'Mesh'), ('token', 'MeshType', 0), ('Vector3', 'Scale', (1.40, 1.20, 1.40)),
+    ])
     body = [
         part(r, 'Head', (2, 1, 1), (0, 4.5, 0), SKIN, children=[head_mesh, face]),
         part(r, 'Torso', (2, 2, 1), (0, 3, 0), SHIRT, top=3, bottom=4),
@@ -305,6 +307,16 @@ def models():
     ])])
     for n in ('humanoidSound', 'humanoidHealth'):
         Rbxm.file('fonts/%s.rbxm' % n, [])
+
+def character_face():
+    with Image.open(path('textures/face.png')) as source:
+        face = source.convert('RGBA')
+    width, height = face.size
+    compressed = face.resize((width, round(height * 0.8)), Image.Resampling.LANCZOS)
+    decal = Image.new('RGBA', face.size)
+    decal.paste(compressed, (0, (height - compressed.height) // 2))
+    decal.save(path('textures/character-face.png'))
+
 
 def celestial_textures():
     # OGRE adds these billboards to the sky, so black contributes no light.
@@ -350,6 +362,7 @@ if __name__ == '__main__':
     shutil.rmtree(OUT, ignore_errors=True); os.makedirs(OUT)
     from_brickbuild()
     celestial_textures()
+    character_face()
     surfaces(); johntex(); explosion(); cursors(); sounds(); fonts(); wordlist(); safechat(); models()
     n = sum(len(fs) for _, _, fs in os.walk(OUT))
     print('wrote', n, 'files to', OUT)
