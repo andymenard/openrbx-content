@@ -10,7 +10,8 @@ comes from Roblox: every file is drawn, synthesized or written by `make_pack.py`
 Download this repository and copy its ready-to-use `content/` folder beside
 your OpenRBX executable (`Roblox` on Linux or `Roblox.exe` on Windows). If that
 directory already has a `content/` folder, back it up and copy this pack in
-its place. No Python setup is required.
+its place. The generated files are committed under `content/`. OpenRBX reads
+them directly when it launches, so installation and play require no Python.
 
 In `AppSettings.xml` beside the executable, set `ContentFolder` inside the
 existing `Settings` element. Create the file with the following contents if it

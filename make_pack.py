@@ -11,6 +11,7 @@ File names and formats follow what the client's code asks ContentProvider for; s
 """
 import io, math, os, shutil, struct, sys, zlib
 import numpy as np
+from xml.sax.saxutils import escape
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -59,7 +60,10 @@ def surface_strip(stud):
 
 def surfaces():
     Image.fromarray(surface_strip(32), 'L').convert('RGB').save(path('textures/SurfacesStrip.png'))
-    Image.fromarray(surface_strip(64), 'L').convert('RGB').save(path('textures/surfaces.png'))
+    # The legacy OGRE renderer builds custom mipmaps for this atlas.
+    # A power-of-two height keeps its mip count within the OpenGL limit.
+    atlas = Image.fromarray(surface_strip(64)).convert('RGB')
+    atlas.resize((128, 1024), Image.Resampling.BILINEAR).save(path('textures/surfaces.png'))
 
 # ============================================================== other textures
 def johntex():
@@ -252,6 +256,8 @@ class Rbxm:
                 out.append('<Content name="%s"><url>%s</url></Content>' % (name, val))
             elif kind == 'bool':
                 out.append('<bool name="%s">%s</bool>' % (name, 'true' if val else 'false'))
+            elif kind == 'string':
+                out.append('<string name="%s">%s</string>' % (name, escape(val)))
             else:
                 out.append('<%s name="%s">%s</%s>' % (kind, name, val, kind))
         out.append('</Properties>')
@@ -279,8 +285,9 @@ def models():
     r = Rbxm(); SKIN, SHIRT, PANTS = 9, 217, 199
     face = r.item('Decal', [('string', 'Name', 'face'), ('token', 'Face', 5),
                             ('Content', 'Texture', 'rbxasset://textures/face.png')])
+    head_mesh = r.item('SpecialMesh', [('string', 'Name', 'Mesh'), ('token', 'MeshType', 0)])
     body = [
-        part(r, 'Head', (2, 1, 1), (0, 4.5, 0), SKIN, children=[face]),
+        part(r, 'Head', (2, 1, 1), (0, 4.5, 0), SKIN, children=[head_mesh, face]),
         part(r, 'Torso', (2, 2, 1), (0, 3, 0), SHIRT, top=3, bottom=4),
         part(r, 'Left Arm', (1, 2, 1), (-1.5, 3, 0), SKIN, top=3, bottom=4),
         part(r, 'Right Arm', (1, 2, 1), (1.5, 3, 0), SKIN, top=3, bottom=4),
@@ -289,8 +296,14 @@ def models():
         r.item('Humanoid', [('string', 'Name', 'Humanoid')]),
     ]
     Rbxm.file('fonts/character.rbxm', [r.item('Model', [('string', 'Name', 'Character')], body)])
-    # Player.cpp adds whatever these hold to the character; empty until there are scripts for them
-    for n in ('humanoidSound', 'humanoidHealth', 'humanoidAnimate'):
+    # Player.cpp parents these items to the model before it enters Workspace.
+    with open(os.path.join(HERE, 'tools', 'animate.lua'), encoding='utf-8') as source:
+        animation = source.read()
+    r = Rbxm()
+    Rbxm.file('fonts/humanoidAnimate.rbxm', [r.item('Script', [
+        ('string', 'Name', 'Animate'), ('string', 'Source', animation),
+    ])])
+    for n in ('humanoidSound', 'humanoidHealth'):
         Rbxm.file('fonts/%s.rbxm' % n, [])
 
 def celestial_textures():
