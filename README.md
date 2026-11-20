@@ -7,23 +7,31 @@ comes from Roblox: every file is drawn, synthesized or written by `make_pack.py`
 
 ## Install the content pack
 
-Download this repository and copy its ready-to-use `content/` folder beside
-your OpenRBX executable (`Roblox` on Linux or `Roblox.exe` on Windows). If that
-directory already has a `content/` folder, back it up and copy this pack in
-its place. The generated files are committed under `content/`. OpenRBX reads
-them directly when it launches, so installation and play require no Python.
+1. Build OpenRBX, then open the output directory that contains `Roblox` on
+   Linux or `Roblox.exe` on Windows.
+2. [Download the content pack](https://github.com/andymenard/openrbx-content/archive/refs/heads/main.zip)
+   and extract it. Back up any existing `content/` folder in the build output,
+   then copy the extracted `content/` folder beside the executable.
+3. Open `AppSettings.xml` beside the executable. Set `ContentFolder` inside
+   the existing `Settings` element and keep any other settings. If the file
+   doesn't exist, create it with these contents.
 
-In `AppSettings.xml` beside the executable, set `ContentFolder` inside the
-existing `Settings` element. Create the file with the following contents if it
-doesn't exist.
+   ```xml
+   <Settings>
+     <ContentFolder>content</ContentFolder>
+   </Settings>
+   ```
 
-```xml
-<Settings>
-  <ContentFolder>content</ContentFolder>
-</Settings>
-```
+4. Launch OpenRBX, open a local `.rbxl` place, and start a play session to try
+   WASD movement and Space to jump.
 
-Launch OpenRBX and open a local `.rbxl` place.
+The ready-to-use files are checked into `content/`. You can install them after
+building OpenRBX, without running Python or rebuilding the client.
+
+The pack was tested on ARM64 Linux with OpenGL. The test covered keyboard
+movement, jumping, walking animation, and rendering the character, cursors,
+HUD font, brick surfaces, and sky. The test build had audio disabled. See
+[FILES.md](FILES.md) for asset coverage and Windows test details.
 
 ## Regenerate the pack
 
