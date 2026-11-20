@@ -297,7 +297,9 @@ def models():
         part(r, 'Right Leg', (1, 2, 1), (0.5, 1, 0), PANTS, top=3, bottom=4),
         r.item('Humanoid', [('string', 'Name', 'Humanoid')]),
     ]
-    Rbxm.file('fonts/character.rbxm', [r.item('Model', [('string', 'Name', 'Character')], body)])
+    # PVInstance defaults to NoController. Player (7) attaches the keyboard controller.
+    character = r.item('Model', [('string', 'Name', 'Character'), ('token', 'Controller', 7)], body)
+    Rbxm.file('fonts/character.rbxm', [character])
     # Player.cpp parents these items to the model before it enters Workspace.
     with open(os.path.join(HERE, 'tools', 'animate.lua'), encoding='utf-8') as source:
         animation = source.read()

@@ -18,7 +18,7 @@ and in the format the code reads; **stub** = shipped, but minimal; **todo** = no
 | `fonts/diogenes.fnt` | `App/gui/ProfanityFilter.cpp:24` | stub | not a font: plain-text word list, one per line. Shipped empty |
 | `fonts/safechat.xml` | `App/v8datamodel/SafeChat.cpp:30` | ok | original phrase tree, nested `<utterance>` |
 | `fonts/SlingshotPellet.rbxm`, `fonts/Rocket.rbxm` | `App/tool/ToolsSurface.cpp:388` | ok | one Part each |
-| `fonts/character.rbxm` | `Network/Player.cpp:342` | ok | one Model with a Humanoid, limbs, and a rounded Head SpecialMesh with a face decal |
+| `fonts/character.rbxm` | `Network/Player.cpp:342` | ok | one Model with a Humanoid, limbs, a rounded head, and the Player controller for keyboard movement |
 | `fonts/humanoidAnimate.rbxm` | `Network/Player.cpp` | ok | drives the four limb motors for locomotion and airborne poses |
 | `fonts/humanoid{Sound,Health}.rbxm` | `Network/Player.cpp` | stub | empty models |
 | `fonts/LDraw2RobloxMap.xml` | `win/LDrawParser.cpp:24` | todo | only for LDraw import |
@@ -33,7 +33,7 @@ The checked-in pack was tested with the OpenRBX ARM64 Linux client and the
 OGRE OpenGL renderer on an Apple M1 Pro. A local place rendered with studded
 surfaces, the player model, HUD text, and the cursor. The renderer loaded the
 512×256 font atlas, all six skybox faces, and the three celestial textures.
-The rounded head and limb movement were checked during local play.
+The rounded head, keyboard movement, jumping, and limb animation were checked during local play.
 
 An earlier Windows NMake test opened a place and loaded the font atlas before
 the VM's Direct3D device was lost. The current pack's full 3D rendering was
